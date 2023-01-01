@@ -5,6 +5,19 @@ import java.io.*;
 import java.util.Arrays;
 import java.util.Random;
 
+public class LinesCounterThread extends Thread
+{
+    String file=null;
+    public LinesCounterThread(String file)
+    {
+        this.file=file;
+    }
+    @Override
+    public void run()
+    {
+        // count  lines for once file
+    }
+}
 public class Ex2_1 {
     /**
      * @param fileNames paths for all files
@@ -43,6 +56,7 @@ public class Ex2_1 {
         {
                 int lineCount=rand.nextInt(bound);
                 File file=new File("Files/file_"+ (i+1)+".txt");
+                FileNames[i]=file.getPath();
             try {
                 FileOutputStream outPutStream=new FileOutputStream(file);
                 for (int j = 0; j <lineCount ; j++) {
@@ -65,8 +79,15 @@ public class Ex2_1 {
 
     public static void main(String[] args) throws IOException {
         String[] FileNames=createTextFiles(3,1,10);
-        String[]check={"Files/file_1.txt","Files/file_2.txt","Files/file_3.txt"};
-        System.out.println(getNumOflines(check));
+        /*
+        Arrays.stream(FileNames).forEach(
+                (file)->{
+                    System.out.println(file);
+                }
+        );
+        */
+       // String[]check={"Files/file_1.txt","Files/file_2.txt","Files/file_3.txt"};
+        System.out.println(getNumOflines(FileNames));
 
 
 
