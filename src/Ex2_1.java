@@ -1,16 +1,30 @@
 package src;
 
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
+import java.util.Arrays;
 import java.util.Random;
 
 public class Ex2_1 {
+    public static int getNumOflines(String [] fileNames) {
+        int lines = 0;
+        for (int i = 0; i < fileNames.length; i++) {
+            try {
+                BufferedReader reader = new BufferedReader(new FileReader(fileNames[i]));
+                while (reader.readLine() != null) {
+                    lines++;
+                }
+                reader.close();
+            } catch (IOException e) {
+                System.out.println(" An error occurred while reading the file: " + e.getMessage());
+            }
+
+        }
+        return lines;
+    }
     public static String[] createTextFiles(int n, int seed, int bound)  {
         Random rand=new Random(seed);
-        String line="Hello World \n";
+        String line="Hello World\n";
         byte[] lineBytes=line.getBytes();
         String[] FileNames= new String[n];
         for(int i=0;i<n;i++)
@@ -21,7 +35,6 @@ public class Ex2_1 {
                 FileOutputStream outPutStream=new FileOutputStream(file);
                 for (int j = 0; j <lineCount ; j++) {
                     outPutStream.write(lineBytes);
-                    outPutStream.write(32);
                 }
 
             }
@@ -39,8 +52,11 @@ public class Ex2_1 {
     }
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         String[] FileNames=createTextFiles(3,1,10);
+        String[]check={"Files/file_1.txt","Files/file_2.txt","Files/file_3.txt"};
+        System.out.println(getNumOflines(check));
+
 
 
     }
