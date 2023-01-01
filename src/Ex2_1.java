@@ -6,6 +6,11 @@ import java.util.Arrays;
 import java.util.Random;
 
 public class Ex2_1 {
+    /**
+     * @param fileNames paths for all files
+     * @return number of lines for all files
+     * @throws IOException
+     * */
     public static int getNumOflines(String [] fileNames) {
         int lines = 0;
         for (int i = 0; i < fileNames.length; i++) {
@@ -22,6 +27,13 @@ public class Ex2_1 {
         }
         return lines;
     }
+    /**
+     * @param n number of files to create
+     * @param seed -->Random(int seed)
+     * @param bound --> rand .nextInt(bound)
+     * @return The path of each file
+     * @throws FileNotFoundException,IOException
+     * */
     public static String[] createTextFiles(int n, int seed, int bound)  {
         Random rand=new Random(seed);
         String line="Hello World\n";
@@ -46,7 +58,6 @@ public class Ex2_1 {
             }
 
         }
-
 
         return  FileNames;
     }
