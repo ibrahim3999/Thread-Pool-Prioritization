@@ -1,31 +1,28 @@
 package src;
 
 import java.io.*;
-import java.util.Arrays;
-import java.util.Random;
+import java.util.*;
 
 public class Ex2_1 {
     /**
      * @param file name
      * @return number of lines
-     *
-     * */
-    public static int countLines(String filename)  {
-        int lines=0;
+     */
+    public static int countLines(String filename) {
+        int lines = 0;
         try {
             BufferedReader reader = new BufferedReader(new FileReader(filename));
             while (reader.readLine() != null) {
                 lines++;
             }
             reader.close();
-        }
-
-            catch(IOException e){
+        } catch (IOException e) {
             System.out.println(" An error occurred while reading the file: " + e.getMessage());
         }
 
         return lines;
     }
+
     /**
      * @param fileNames paths for all files
      * @return number of lines for all files
@@ -34,7 +31,7 @@ public class Ex2_1 {
     public static int getNumOflines(String[] fileNames) {
         int lines = 0;
         for (int i = 0; i < fileNames.length; i++) {
-                    lines+=countLines(fileNames[i]);
+            lines += countLines(fileNames[i]);
         }
         return lines;
     }
@@ -72,18 +69,40 @@ public class Ex2_1 {
         return FileNames;
     }
 
+    public static int getNumOfLinesThreads(String[] fileNames) {
+        int counter=0;
+
+        for (int i = 0; i < fileNames.length; i++) {
+            LinesCounterThread l = new LinesCounterThread(fileNames[i]);
+            l.start();
+            try {
+                l.join();
+            }
+            catch (InterruptedException e)
+            {
+                e.printStackTrace();
+            }
+            counter+=l.countLines;
+        }
+        return counter;
+    }
+
+
     public static class LinesCounterThread extends Thread {
         private String Path = null;
-        private int countLines;
+        private  int countLines;
 
         public LinesCounterThread(String Path) {
             this.Path = Path;
             this.countLines = 0;
+
         }
+
+
         @Override
         public void run() {
             // count  lines for once file
-                this.countLines=countLines(this.Path);
+            this.countLines = countLines(this.Path);
         }
 
         public int getCountLines() {
@@ -100,16 +119,19 @@ public class Ex2_1 {
                     System.out.println(file);
                 }
         );
-        */
-         String[]check={"Files/file_1.txt","Files/file_2.txt","Files/file_3.txt"};
+
+
         //  System.out.println(getNumOflines(FileNames));
             LinesCounterThread t1 = new LinesCounterThread(check[0]);
             LinesCounterThread t2 = new LinesCounterThread(check[1]);
             LinesCounterThread t3 = new LinesCounterThread(check[2]);
             t1.start();
             t2.start();
-            t3.start();
-        System.out.println(t1.getState());
-        }
+            t3.start(); */
+        String[]check={"Files/file_1.txt","Files/file_2.txt","Files/file_3.txt","Files/file_1.txt","Files/file_2.txt","Files/file_3.txt"};
+        System.out.println(getNumOfLinesThreads(check));
+
 
     }
+
+}
