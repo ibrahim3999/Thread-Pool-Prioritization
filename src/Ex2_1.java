@@ -9,10 +9,11 @@ public class Ex2_1 {
      * @param file name
      * @return number of lines
      */
-   /** public int getNumOfLinesThreadPool(String[] fileNames){
-
-    }
-    */
+    /**
+     * public int getNumOfLinesThreadPool(String[] fileNames){
+     * <p>
+     * }
+     */
     public static int countLines(String filename) {
         int lines = 0;
         try {
@@ -73,75 +74,85 @@ public class Ex2_1 {
 
         return FileNames;
     }
+
     /**
      * @param fileNames paths for all files
      * @return Lines Counter
      * implement threadPool Design pattern
-     * */
-    public static int getNumOfLinesThreadPool(String[] fileNames){
+     */
+    public static int getNumOfLinesThreadPool(String[] fileNames) {
 
-        ExecutorService executor= Executors.newFixedThreadPool(fileNames.length);
-        ArrayList<Future<Integer>> results=new ArrayList<>();
+        ExecutorService executor = Executors.newFixedThreadPool(fileNames.length);
+        ArrayList<Future<Integer>> results = new ArrayList<>();
 
-        for (int i = 0; i <fileNames.length ; i++) {
+        for (int i = 0; i < fileNames.length; i++) {
             LinesCounterTask task = new LinesCounterTask(fileNames[i]);
             try {
                 Future<Integer> result = executor.submit(task);
                 results.add(result);
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
 
-        int totalLines=0;
-       for(Future<Integer> result :results)
-       {
-           try {
-               totalLines+=result.get();
-           }
-           catch (Exception e) {
-               e.printStackTrace();
-           }
+        int totalLines = 0;
+        for (Future<Integer> result : results) {
+            try {
+                totalLines += result.get();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
-       }
-            executor.shutdown();
-       return totalLines;
+        }
+        executor.shutdown();
+        return totalLines;
     }
+
+    /**
+     * @param fileNames Method count lines  file(Threads)
+     */
     public static int getNumOfLinesThreads(String[] fileNames) {
-        int counter=0;
+        int counter = 0;
         for (int i = 0; i < fileNames.length; i++) {
-            LinesCounterThread l=new LinesCounterThread(fileNames[i]);
+            LinesCounterThread l = new LinesCounterThread(fileNames[i]);
             l.start();
             try {
                 l.join();
-            }
-            catch (InterruptedException e) {
+            } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            counter+=l.countLines;
+            counter += l.countLines;
         }
 
         return counter;
     }
+
+    /**
+     * LinesCounter implemnts Callable return Integer (count lines)
+     */
     public static class LinesCounterTask implements Callable<Integer> {
         private final String Path;
-        public LinesCounterTask(String Path)
-        {
-            this.Path=Path;
+
+        public LinesCounterTask(String Path) {
+            this.Path = Path;
         }
+
         @Override
-        public Integer call()   {
+        public Integer call() {
             int count = 0;
-            count=countLines(this.Path);
+            count = countLines(this.Path);
             return count;
         }
     }
+
+    /**
+     * LinesCounterThread -->is Thread
+     */
     public static class LinesCounterThread extends Thread {
 
 
-        private final String Path ;
-        private  int countLines;
+        private final String Path;
+        private int countLines;
 
         public LinesCounterThread(String Path) {
             this.Path = Path;
@@ -150,6 +161,9 @@ public class Ex2_1 {
         }
 
         @Override
+        /**
+         * count lines for this.path file
+         * */
         public void run() {
             // count  lines for once file
             this.countLines = countLines(this.Path);
@@ -159,10 +173,43 @@ public class Ex2_1 {
             return countLines;
         }
 
+
+    }
+
+    /**
+     * @param check paths files
+     *              runtime for third Methods
+     */
+    public static void PrintTimerTest(String[] check) {
+        System.out.println("----------------------------------------------------");
+        System.out.println(" Normal -->getNumOflines(...) ");
+        Timer timer = new Timer();
+        timer.start();
+        System.out.println("Lines: " + getNumOflines(check));
+        timer.stop();
+        timer.PrintElapsedTimeInseconds();
+
+        timer.reset();
+        System.out.println("----------------------------------------------------");
+        System.out.println(" Threads --> getNumOfLinesThreads(...)");
+        timer.start();
+        System.out.println("Lines:" + getNumOfLinesThreads(check));
+        timer.stop();
+        timer.PrintElapsedTimeInseconds();
+        timer.reset();
+
+        System.out.println("----------------------------------------------------");
+        System.out.println(" Threadpool --> getNumOfLinesThreadPool ");
+        timer.start();
+        System.out.println("Lines: " + getNumOfLinesThreadPool(check));
+        timer.stop();
+        timer.PrintElapsedTimeInseconds();
+        timer.reset();
+        System.out.println("--------------------------------------------------------");
     }
 
     public static void main(String[] args) throws Exception {
-        String[] check = createTextFiles(10, 1, 1000);
+        String[] check = createTextFiles(10, 1, 100);
         /*
         Arrays.stream(FileNames).forEach(
                 (file)->{
@@ -180,24 +227,7 @@ public class Ex2_1 {
             t3.start(); */
         //  String[]check={"Files/file_1.txt","Files/file_2.txt","Files/file_3.txt","Files/file_3.txt"};
         //System.out.println(getNumOfLinesThreads(check));
-        Timer timer=new Timer();
-        timer.start();
-        getNumOfLinesThreadPool(check);
-        timer.stop();
-        timer.PrintElapsedTimeInMilliseconds();
-        timer.reset();
-
-        timer.start();
-        getNumOfLinesThreads(check);
-        timer.stop();
-        timer.PrintElapsedTimeInMilliseconds();
-        timer.reset();
-
-        timer.start();
-        getNumOflines(check);
-        timer.stop();
-        timer.PrintElapsedTimeInMilliseconds();
-        timer.reset();
+        PrintTimerTest(check);
 
     }
 

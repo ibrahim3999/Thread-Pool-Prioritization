@@ -1,9 +1,9 @@
 package src;
 
 public class Timer {
-    private long startTime;
-    private long endTime;
-    private long elapsedTime;
+    private double startTime;
+    private double endTime;
+    private double elapsedTime;
 
     public Timer() {
         startTime = 0;
@@ -20,13 +20,17 @@ public class Timer {
         elapsedTime = endTime - startTime;
     }
 
-    public long getElapsedTime() {
+    public double getElapsedTime() {
         return elapsedTime;
     }
 
     public void PrintElapsedTimeInMilliseconds() {
-        System.out.println("Elapsed time: " + elapsedTime / 1000000 + " milliseconds");
 
+        System.out.println("Elapsed time: " +elapsedTime / 1000000 + " milliseconds");
+    }
+    public void PrintElapsedTimeInseconds() {
+
+        System.out.println("Elapsed time: " +elapsedTime / 1000000000 + " seconds");
     }
 
     public void reset() {
