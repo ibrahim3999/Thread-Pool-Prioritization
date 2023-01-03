@@ -73,6 +73,11 @@ public class Ex2_1 {
 
         return FileNames;
     }
+    /**
+     * @param fileNames paths for all files
+     * @return Lines Counter
+     * implement threadPool Design pattern
+     * */
     public static int getNumOfLinesThreadPool(String[] fileNames){
 
         ExecutorService executor= Executors.newFixedThreadPool(fileNames.length);
@@ -100,7 +105,8 @@ public class Ex2_1 {
            }
 
        }
-            return totalLines;
+            executor.shutdown();
+       return totalLines;
     }
     public static int getNumOfLinesThreads(String[] fileNames) {
         int counter=0;
@@ -118,7 +124,6 @@ public class Ex2_1 {
 
         return counter;
     }
-
     public static class LinesCounterTask implements Callable<Integer> {
         private final String Path;
         public LinesCounterTask(String Path)
@@ -157,7 +162,7 @@ public class Ex2_1 {
     }
 
     public static void main(String[] args) throws Exception {
-       // String[] check = createTextFiles(3, 1, 10);
+        String[] check = createTextFiles(10, 1, 1000);
         /*
         Arrays.stream(FileNames).forEach(
                 (file)->{
@@ -173,9 +178,27 @@ public class Ex2_1 {
             t1.start();
             t2.start();
             t3.start(); */
-        String[]check={"Files/file_1.txt","Files/file_2.txt","Files/file_3.txt","Files/file_3.txt"};
+        //  String[]check={"Files/file_1.txt","Files/file_2.txt","Files/file_3.txt","Files/file_3.txt"};
         //System.out.println(getNumOfLinesThreads(check));
-        System.out.println(getNumOfLinesThreadPool(check));
+        Timer timer=new Timer();
+        timer.start();
+        getNumOfLinesThreadPool(check);
+        timer.stop();
+        timer.PrintElapsedTimeInMilliseconds();
+        timer.reset();
+
+        timer.start();
+        getNumOfLinesThreads(check);
+        timer.stop();
+        timer.PrintElapsedTimeInMilliseconds();
+        timer.reset();
+
+        timer.start();
+        getNumOflines(check);
+        timer.stop();
+        timer.PrintElapsedTimeInMilliseconds();
+        timer.reset();
+
     }
 
 }
