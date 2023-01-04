@@ -10,6 +10,7 @@ public class Ex2_1 {
      * @return number of lines
      */
     public static int countLines(String filename) {
+
         int lines = 0;
         try {
             BufferedReader reader = new BufferedReader(new FileReader(filename));
@@ -20,7 +21,6 @@ public class Ex2_1 {
         } catch (IOException e) {
             System.out.println(" An error occurred while reading the file: " + e.getMessage());
         }
-
         return lines;
     }
 
