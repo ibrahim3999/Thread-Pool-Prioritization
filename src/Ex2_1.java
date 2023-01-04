@@ -144,12 +144,10 @@ public class Ex2_1 {
             return count;
         }
     }
-
     /**
      * LinesCounterThread -->is Thread
      */
     public static class LinesCounterThread extends Thread {
-
 
         private final String Path;
         private int countLines;
@@ -172,7 +170,6 @@ public class Ex2_1 {
         public int getCountLines() {
             return countLines;
         }
-
 
     }
 
@@ -209,7 +206,7 @@ public class Ex2_1 {
     }
 
     public static void main(String[] args) throws Exception {
-        String[] check = createTextFiles(10, 1, 100);
+        String[] check = createTextFiles(3000, 2, 100);
         /*
         Arrays.stream(FileNames).forEach(
                 (file)->{
