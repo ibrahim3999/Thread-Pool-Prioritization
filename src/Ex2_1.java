@@ -9,11 +9,6 @@ public class Ex2_1 {
      * @param file name
      * @return number of lines
      */
-    /**
-     * public int getNumOfLinesThreadPool(String[] fileNames){
-     * <p>
-     * }
-     */
     public static int countLines(String filename) {
         int lines = 0;
         try {
