@@ -18,6 +18,10 @@ public class Task<V> implements Callable<V> {
         return type;
     }
 
+    public void setType(TaskType type) {
+        this.type = type;
+    }
+
     @Override
     public V call()  {
         try {
