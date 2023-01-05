@@ -1,32 +1,31 @@
 package src;
 import java.util.concurrent.Callable;
 
-public class Task <T,V> implements Callable<V> {
-    private final T type;
+public class Task<V> implements Callable<V> {
+    private final Callable<V> task;
+    private TaskType type;
+    public Task(Callable<V> task, TaskType type) {
 
-    private final int priority;
-
-    public Task(T type, int priority) {
-        this.type = type;
-        this.priority = priority;
-
-    }
-    @Override
-    public V call() throws Exception {
-        return null;
+        this.task = task;
+        this.type=type;
     }
 
-    public int getPriority() {
-        return priority;
+    public Callable<V> getTask() {
+        return task;
     }
-    public T getType() {
+
+    public TaskType getType() {
         return type;
     }
 
-    public static void main(String[] args) {
-
-    Task<Integer,Integer> task=new Task<Integer,Integer>(1,3);
-        System.out.println(task.getPriority());
-
+    @Override
+    public V call()  {
+        try {
+            return this.task.call();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
+
+
 }
