@@ -1,17 +1,35 @@
 package src;
 import java.util.concurrent.Callable;
 
-public class Task<V> implements Callable<V> ,Comparable<Task<V>>{
-    private final Callable<V> task;
+public class Task<V> implements Callable<V> ,Comparable<Task<V>> {
+    private  Callable<V> task ;
     private TaskType type;
+/**
+ * constructor with default precedence
+ * */
     public Task(Callable<V> task) {
         this.task = task;
+        this.type=TaskType.COMPUTATIONAL;
     }
-
+    public Task(Callable<V> task, TaskType taskType)
+    {
+        this.type=taskType;
+        this.task=task;
+    }
+    /**
+     * @param task
+     * Factory Method (Design Pattern)
+     * */
+    public static Task createTask(Callable task,TaskType taskType)
+    {
+        return new Task(task,taskType);
+    }
+    /**
+     * A constructor with a priority task
+     * */
     public Callable<V> getTask() {
         return task;
     }
-
 
 
     @Override
