@@ -30,8 +30,6 @@ public class Task<V> implements Callable<V> ,Comparable<Task<V>> {
     public Callable<V> getTask() {
         return task;
     }
-
-
     @Override
     public V call()  {
         try {
@@ -40,7 +38,6 @@ public class Task<V> implements Callable<V> ,Comparable<Task<V>> {
             throw new RuntimeException(e);
         }
     }
-
     @Override
     public int compareTo(Task<V> o) {
         if(this.type.getPriorityValue()<o.type.getPriorityValue())
@@ -53,12 +50,18 @@ public class Task<V> implements Callable<V> ,Comparable<Task<V>> {
         }
         return 0;
     }
-
     public TaskType getType() {
         return type;
     }
-
     public void setType(TaskType type) {
         this.type = type;
+    }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "task=" + task.toString() +
+                ", type=" + type +
+                '}';
     }
 }

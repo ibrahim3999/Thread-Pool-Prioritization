@@ -1,5 +1,7 @@
 package src;
 
+import src.Timer;
+
 import java.io.*;
 import java.util.*;
 import java.util.concurrent.*;
@@ -175,7 +177,7 @@ public class Ex2_1 {
     public static void PrintTimerTest(String[] check) {
         System.out.println("----------------------------------------------------");
         System.out.println(" Normal -->getNumOflines(...) ");
-        Timer timer = new Timer();
+        src.Timer timer = new Timer();
         timer.start();
         System.out.println("Lines: " + getNumOflines(check));
         timer.stop();
