@@ -2,10 +2,11 @@ package src.Ex2_2;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Future;
 
 public class Task<V> implements Comparable<Task<V>>, Callable<V> {
     private  Callable<V> task ;
-    private final CompletableFuture<V> future;
+    private CompletableFuture<V> future;
     private TaskType type;
 /**
  * constructor with default precedence
@@ -51,15 +52,7 @@ public class Task<V> implements Comparable<Task<V>>, Callable<V> {
     }
     @Override
     public int compareTo(Task<V> o) {
-        if(this.type.getPriorityValue()<o.type.getPriorityValue())
-        {
-            return 1;
-        }
-        else if(this.type.getPriorityValue()>o.type.getPriorityValue())
-        {
-            return -1;
-        }
-        return 0;
+        return o.type.getPriorityValue() - this.type.getPriorityValue();
     }
     public TaskType getType() {
         return type;

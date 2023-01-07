@@ -10,25 +10,26 @@ public class CustomExecutor {
     private final PriorityBlockingQueue queue;
 
     private final TimeUnit unit;
-    private final ExecutorService executor;
+    private final ThreadPoolExecutor threadpool;
 
     public CustomExecutor() {
-        this.queue = new PriorityBlockingQueue<>();
+        this.queue = new PriorityBlockingQueue();
         this.corePoolSize = Runtime.getRuntime().availableProcessors()/2;
         this. maxPoolSize =Runtime.getRuntime().availableProcessors()-1;
         this.keepAliveTime=300;
         this.unit=TimeUnit.MICROSECONDS;
 
-        this.executor=new ThreadPoolExecutor(corePoolSize,maxPoolSize,keepAliveTime,unit,queue);
+        this.threadpool=new ThreadPoolExecutor(corePoolSize,maxPoolSize,keepAliveTime,unit,queue);
 
     }
 
     public   <T> Future<T> submit(Callable<T> task, TaskType taskType ) {
+        this.threadpool.getQueue().peek();
         return submit(Task.createTask(task,taskType));
     }
 
     public <T> Future<T> submit(Task<T> task ) {
-        return this.executor.submit(task);
+        return this.threadpool.submit(task);
     }
     /**
      * @param task
@@ -36,7 +37,7 @@ public class CustomExecutor {
     * */
     public void  enqueueTask(Task task)
     {
-        this.queue.add(task);
+        this.submit(task);
     }
     /**
      * @param task
@@ -45,7 +46,7 @@ public class CustomExecutor {
      * */
     public void enqueueTask(Callable task,TaskType type)
     {
-        enqueueTask(new Task(task,type));
+        enqueueTask(Task.createTask(task,type));
     }
     /**
      * @param task
@@ -55,27 +56,29 @@ public class CustomExecutor {
     {
         enqueueTask(new Task(task));
     }
-    public ExecutorService getThreadPool() {
-        return executor;
+    public ThreadPoolExecutor getThreadPool() {
+        return threadpool;
     }
 
-    public PriorityBlockingQueue<Runnable> getQueue() {
+    public PriorityBlockingQueue<Task> getQueue() {
         return queue;
     }
 
 
-    public String getCurrentMax() {
-        return "";
+    public    String getCurrentMax() {
+
+          Task  topTask = (Task) threadpool.getQueue().peek();
+          if (topTask==null)
+          {
+              return "Empty Queue";
+          }
+        return "" + topTask.getType().getPriorityValue();
     }
 
     public void gracefullyTerminate() {
-    executor.shutdown();
+        threadpool.shutdownNow();
     }
 }
-
-
-
-
 
 
 
