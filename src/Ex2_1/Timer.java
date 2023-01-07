@@ -1,4 +1,4 @@
-package src;
+package src.Ex2_1;
 
 public class Timer {
     private double startTime;

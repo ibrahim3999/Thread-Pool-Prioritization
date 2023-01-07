@@ -1,6 +1,4 @@
-package src;
-
-import javax.print.attribute.standard.MediaSize;
+package src.Ex2_2;
 
 public enum TaskType {
 

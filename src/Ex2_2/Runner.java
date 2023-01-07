@@ -1,4 +1,10 @@
-package src;
+
+package src.Ex2_2;
+
+
+import src.Ex2_2.CustomExecutor;
+import src.Ex2_2.Task;
+import src.Ex2_2.TaskType;
 
 public class Runner {
     public static void main(String[] args) {
@@ -26,23 +32,17 @@ public class Runner {
             }
             return sum;
         }, TaskType.IO);
+
         CE.submit(task1);
         CE.submit(task2);
         CE.submit(task3);
 
 
-      while (CE.getQueue().isEmpty()!=true)
-      {
-          System.out.println("priority number :"+CE.getQueue().peek().getType().getPriorityValue());
-          System.out.println(CE.getQueue().poll().call());
-      }
 
-        System.out.println(CE.getThreadPool());
-      CE.gracefullyTerminate();
+
 
 
     }
 
 }
-
 

@@ -1,11 +1,12 @@
+
 package Test;
 
 import org.junit.jupiter.api.Test;
 import org.junit.platform.commons.logging.Logger;
 import org.junit.platform.commons.logging.LoggerFactory;
-import src.CustomExecutor;
-import src.Task;
-import src.TaskType;
+import src.Ex2_2.CustomExecutor;
+import src.Ex2_2.Task;
+import src.Ex2_2.TaskType;
 
 import java.util.concurrent.*;
 public class Tests {

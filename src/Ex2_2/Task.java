@@ -1,8 +1,11 @@
-package src;
-import java.util.concurrent.Callable;
+package src.Ex2_2;
 
-public class Task<V> implements Callable<V> ,Comparable<Task<V>> {
+import java.util.concurrent.Callable;
+import java.util.concurrent.CompletableFuture;
+
+public class Task<V> implements Comparable<Task<V>>, Callable<V> {
     private  Callable<V> task ;
+    private final CompletableFuture<V> future;
     private TaskType type;
 /**
  * constructor with default precedence
@@ -10,11 +13,13 @@ public class Task<V> implements Callable<V> ,Comparable<Task<V>> {
     public Task(Callable<V> task) {
         this.task = task;
         this.type=TaskType.COMPUTATIONAL;
+        this.future=new CompletableFuture<>();
     }
     public Task(Callable<V> task, TaskType taskType)
     {
         this.type=taskType;
         this.task=task;
+        this.future=new CompletableFuture<>();
     }
     /**
      * @param task
@@ -30,10 +35,16 @@ public class Task<V> implements Callable<V> ,Comparable<Task<V>> {
     public Callable<V> getTask() {
         return task;
     }
-    @Override
+    public CompletableFuture<V> getFuture() {
+        System.out.println(future);
+        return future;
+    }
+
     public V call()  {
         try {
-            return this.task.call();
+            V res= this.task.call();
+            future.complete(res);
+            return res;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
