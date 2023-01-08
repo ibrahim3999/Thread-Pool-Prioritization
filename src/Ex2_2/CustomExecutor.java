@@ -1,5 +1,9 @@
 package src.Ex2_2;
 
+
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.concurrent.*;
 
 public class CustomExecutor {
@@ -7,28 +11,40 @@ public class CustomExecutor {
     private final int corePoolSize;
     private final int maxPoolSize ;
 
-    private final PriorityBlockingQueue queue;
-
+    private final PriorityBlockingQueue<Runnable> queue;
     private final TimeUnit unit;
-    private final ThreadPoolExecutor threadpool;
+   private final ThreadPoolExecutor threadpool;
 
     public CustomExecutor() {
-        this.queue = new PriorityBlockingQueue();
+
+        /**
+        this.queue=new PriorityBlockingQueue(Collections.singleton(new Comparator<Task>() {
+            @Override
+            public int compare(Task o1, Task o2) {
+                return Integer.compare(o1.getType().getPriorityValue(), o2.getType().getPriorityValue());
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                return false;
+            }
+        }));
+         **/
+        this.queue=new PriorityBlockingQueue<>();
         this.corePoolSize = Runtime.getRuntime().availableProcessors()/2;
         this. maxPoolSize =Runtime.getRuntime().availableProcessors()-1;
         this.keepAliveTime=300;
         this.unit=TimeUnit.MICROSECONDS;
-
         this.threadpool=new ThreadPoolExecutor(corePoolSize,maxPoolSize,keepAliveTime,unit,queue);
 
     }
 
     public   <T> Future<T> submit(Callable<T> task, TaskType taskType ) {
-        this.threadpool.getQueue().peek();
         return submit(Task.createTask(task,taskType));
+
     }
 
-    public <T> Future<T> submit(Task<T> task ) {
+    public <T> Future<T> submit(Task task ) {
         return this.threadpool.submit(task);
     }
     /**
@@ -54,13 +70,14 @@ public class CustomExecutor {
      * */
     public void enqueueTask(Callable task)
     {
-        enqueueTask(new Task(task));
+
+        enqueueTask(Task.createTask(task,TaskType.IO));
     }
     public ThreadPoolExecutor getThreadPool() {
         return threadpool;
     }
 
-    public PriorityBlockingQueue<Task> getQueue() {
+    public PriorityBlockingQueue getQueue() {
         return queue;
     }
 

@@ -51,7 +51,7 @@ public class Ex2_1 {
         String[] FileNames = new String[n];
         for (int i = 0; i < n; i++) {
             int lineCount = rand.nextInt(bound);
-            File file = new File("Files/file_" + (i + 1) + ".txt");
+            File file = new File("src\\Ex2_1\\Files/file_" + (i + 1) + ".txt");
             FileNames[i] = file.getPath();
             try {
                 FileOutputStream outPutStream = new FileOutputStream(file);
@@ -201,23 +201,20 @@ public class Ex2_1 {
     }
 
     public static void main(String[] args) throws Exception {
-        String[] check = createTextFiles(3000, 2, 100);
+        String[] check = createTextFiles(5, 2, 100);
         /*
         Arrays.stream(FileNames).forEach(
                 (file)->{
                     System.out.println(file);
                 }
         );
-
-
         //  System.out.println(getNumOflines(FileNames));
-
             LinesCounterThread t2 = new LinesCounterThread(check[1]);
             LinesCounterThread t3 = new LinesCounterThread(check[2]);
             t1.start();
             t2.start();
             t3.start(); */
-        //  String[]check={"Files/file_1.txt","Files/file_2.txt","Files/file_3.txt","Files/file_3.txt"};
+        //  String[]check={"src.Ex2_1.Files/file_1.txt","src.Ex2_1.Files/file_2.txt","src.Ex2_1.Files/file_3.txt","src.Ex2_1.Files/file_3.txt"};
         //System.out.println(getNumOfLinesThreads(check));
         PrintTimerTest(check);
 
