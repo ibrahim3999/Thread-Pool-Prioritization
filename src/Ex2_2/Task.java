@@ -11,7 +11,7 @@ public class Task<V> implements Comparable<Task<V>>, Callable<V> {
 /**
  * constructor with default precedence
  * */
-    public Task(Callable<V> task) {
+    private Task(Callable<V> task) {
         this.task = task;
         this.type=TaskType.COMPUTATIONAL;
         this.future=new CompletableFuture<>();
@@ -52,7 +52,7 @@ public class Task<V> implements Comparable<Task<V>>, Callable<V> {
     }
     @Override
     public int compareTo(Task<V> o) {
-        return o.type.getPriorityValue() - this.type.getPriorityValue();
+      return Integer.compare(getType().getPriorityValue(), o.getType().getPriorityValue());
     }
     public TaskType getType() {
         return type;

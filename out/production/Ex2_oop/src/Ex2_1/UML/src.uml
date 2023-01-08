@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>src</OriginalElement>
+  <nodes>
+    <node x="55.13504186112618" y="445.02864764907406">src.Ex2_1.LinesCounterTask</node>
+    <node x="-30.0497001763476" y="173.25395540796066">src.Ex2_1</node>
+    <node x="290.94772808157603" y="173.5317944817928">src.Timer</node>
+    <node x="49.06960332382948" y="-14.404575119053092">src.Ex2_1.LinesCounterThread</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="src.Ex2_1.LinesCounterThread" target="src.Ex2_1" relationship="INNER_CLASS">
+      <point x="3.9667617051009074E-4" y="61.49957511905309" />
+      <point x="148.07" y="155.754" />
+      <point x="251.0" y="155.754" />
+      <point x="251.0" y="276.8120362650105" />
+      <point x="240.475" y="276.8120362650105" />
+      <point x="240.475" y="277.754" />
+      <point x="129.99970017634757" y="4.459203933038225E-5" />
+    </edge>
+    <edge source="src.Ex2_1.LinesCounterTask" target="src.Ex2_1" relationship="INNER_CLASS">
+      <point x="-4.1861126192088705E-5" y="-38.49964764907406" />
+      <point x="147.635" y="399.754" />
+      <point x="251.0" y="399.754" />
+      <point x="251.0" y="277.754" />
+      <point x="129.99970017634757" y="4.459203933038225E-5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic" zoom="0.8" showDependencies="false" x="266.5" y="265.04166666666663" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Constructors</Category>
+    <Category>Fields</Category>
+    <Category>Inner Classes</Category>
+    <Category>Methods</Category>
+    <Category>Properties</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
