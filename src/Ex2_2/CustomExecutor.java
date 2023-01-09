@@ -11,7 +11,7 @@ public class CustomExecutor {
     private final int corePoolSize;
     private final int maxPoolSize ;
 
-    private final PriorityBlockingQueue<Runnable> queue;
+    private final LinkedBlockingQueue<Runnable> queue;
     private final TimeUnit unit;
    private final ThreadPoolExecutor threadpool;
 
@@ -30,7 +30,7 @@ public class CustomExecutor {
             }
         }));
          **/
-        this.queue=new PriorityBlockingQueue<>();
+        this.queue=new LinkedBlockingQueue<>();
         this.corePoolSize = Runtime.getRuntime().availableProcessors()/2;
         this. maxPoolSize =Runtime.getRuntime().availableProcessors()-1;
         this.keepAliveTime=300;
@@ -77,21 +77,19 @@ public class CustomExecutor {
         return threadpool;
     }
 
-    public PriorityBlockingQueue getQueue() {
+    public LinkedBlockingQueue getQueue() {
         return queue;
     }
 
 
     public    String getCurrentMax() {
 
-          Task  topTask = (Task) threadpool.getQueue().peek();
-          if (topTask==null)
-          {
-              return "Empty Queue";
-          }
-        return "" + topTask.getType().getPriorityValue();
+        if(threadpool.getQueue().peek()==null)
+        {
+            return "Empty Queue";
+        }
+       return""+ threadpool.getQueue().peek();
     }
-
     public void gracefullyTerminate() {
         threadpool.shutdownNow();
     }
