@@ -2,7 +2,8 @@
 
 ## Part 1:
 
-#### Ex2_1 The Ex2_1 class provides methods for counting the number of lines in a file or array of files. It has four main methods:
+### Ex2_1 
+The Ex2_1 class provides methods for counting the number of lines in a file or array of files. It has four main methods:
 
   1. `countLines(String filename)` - this method takes a file name as input and returns the number of lines in the file.
 
