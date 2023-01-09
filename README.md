@@ -38,5 +38,4 @@ As a result, the thread pool design pattern can be more efficient than using ind
   ```
 
 ## UML Diagrams:
-![](https://github.com/ibrahim3999/Ex2_oop/blob/master/src/Ex2_1/UML/Pic/UML.jpg)
-
+<img src="https://github.com/ibrahim3999/Ex2_oop/blob/master/src/Ex2_1/UML/Pic/UML.jpg" width="500" height="400">
