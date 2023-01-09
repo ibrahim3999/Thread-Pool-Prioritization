@@ -28,7 +28,7 @@ The Timer class is a simple utility class for measuring the elapsed time of a pr
 The` Timer` class also has a `reset()` method that can be called to reset the start time, end time, and elapsed time to their initial values.
 
 ## UML Diagrams:
-![](https://github.com/ibrahim3999/Ex2_oop/blob/master/src/UML/Pic/UML.jpg)
+![](https://github.com/ibrahim3999/Ex2_oop/blob/master/src/Ex2_1/UML/Pic/UML.jpg)
 
 ## Test
 ![](https://github.com/ibrahim3999/Ex2_oop/blob/master/Pic/RunTimeTest/1000_10000.jpg)
