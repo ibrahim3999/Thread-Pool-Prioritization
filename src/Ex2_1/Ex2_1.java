@@ -75,7 +75,7 @@ public class Ex2_1 {
      * @return Lines Counter
      * implement threadPool Design pattern
      */
-    public static int getNumOfLinesThreadPool(String[] fileNames) {
+    public  int getNumOfLinesThreadPool(String[] fileNames) {
 
         ExecutorService executor = Executors.newFixedThreadPool(fileNames.length);
         ArrayList<Future<Integer>> results = new ArrayList<>();
@@ -106,7 +106,7 @@ public class Ex2_1 {
     /**
      * @param fileNames Method count lines  file(Threads)
      */
-    public static int getNumOfLinesThreads(String[] fileNames) {
+    public  int getNumOfLinesThreads(String[] fileNames) {
         int counter = 0;
         for (int i = 0; i < fileNames.length; i++) {
             LinesCounterThread l = new LinesCounterThread(fileNames[i]);
@@ -122,57 +122,13 @@ public class Ex2_1 {
         return counter;
     }
 
-    /**
-     * LinesCounter implemnts Callable return Integer (count lines)
-     */
-    public static class LinesCounterTask implements Callable<Integer> {
-        private final String Path;
-
-        public LinesCounterTask(String Path) {
-            this.Path = Path;
-        }
-
-        @Override
-        public Integer call() {
-            int count = 0;
-            count = countLines(this.Path);
-            return count;
-        }
-    }
-    /**
-     * LinesCounterThread -->is Thread
-     */
-    public static class LinesCounterThread extends Thread {
-
-        private final String Path;
-        private int countLines;
-
-        public LinesCounterThread(String Path) {
-            this.Path = Path;
-            this.countLines = 0;
-
-        }
-
-        @Override
-        /**
-         * count lines for this.path file
-         * */
-        public void run() {
-            // count  lines for once file
-            this.countLines = countLines(this.Path);
-        }
-
-        public int getCountLines() {
-            return countLines;
-        }
-
-    }
 
     /**
      * @param check paths files
      *              runtime for third Methods
      */
     public static void PrintTimerTest(String[] check) {
+        Ex2_1 e=new Ex2_1();
         System.out.println("----------------------------------------------------");
         System.out.println(" Normal -->getNumOflines(...) ");
         Timer timer = new Timer();
@@ -185,7 +141,8 @@ public class Ex2_1 {
         System.out.println("----------------------------------------------------");
         System.out.println(" Threads --> getNumOfLinesThreads(...)");
         timer.start();
-        System.out.println("Lines:" + getNumOfLinesThreads(check));
+
+        System.out.println("Lines:" + e.getNumOfLinesThreads(check));
         timer.stop();
         timer.PrintElapsedTimeInseconds();
         timer.reset();
@@ -193,15 +150,15 @@ public class Ex2_1 {
         System.out.println("----------------------------------------------------");
         System.out.println(" Threadpool --> getNumOfLinesThreadPool ");
         timer.start();
-        System.out.println("Lines: " + getNumOfLinesThreadPool(check));
+        System.out.println("Lines: " + e.getNumOfLinesThreadPool(check));
         timer.stop();
         timer.PrintElapsedTimeInseconds();
         timer.reset();
         System.out.println("--------------------------------------------------------");
     }
 
-    public static void main(String[] args) throws Exception {
-        String[] check = createTextFiles(5, 2, 100);
+    public static void main(String[] args) {
+        String[] check = createTextFiles(200, 2, 1000);
         /*
         Arrays.stream(FileNames).forEach(
                 (file)->{
