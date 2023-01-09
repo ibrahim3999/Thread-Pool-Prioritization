@@ -13,7 +13,8 @@
   4. `getNumOfLinesThreadPool(String[] fileNames)` and `getNumOfLinesThreads(String[] fileNames)` - these methods take an array of file names and return the total number   of lines in all of the files, using either a thread pool or individual threads, respectively.
 #### `LinesCounterTask`
 The `LinesCounterTask` class implements the `Callable` interface and is used to count the number of lines in a file as part of a thread pool. It has a single field, `Path`, which represents the file path of the file to be processed. The `call()` method of this class returns the number of lines in the file specified by the Path field. This method simply calls the countLines() method of the Ex2_1 class, passing in the Path field as an argument.
-
+#### `LinesCounterThread` 
+The `LinesCounterThread` class extends the `Thread` class and is used to count the number of lines in a file using individual threads. It has two fields: `Path`, which represents the file path of the file to be processed, and countLines, which stores the number of lines in the file. The `LinesCounterThread` class does not have a `run()` method implemented, so it will not perform any actions when started as a thread. To count the number of lines in a file using this class, you would need to implement the `run()` method and call the appropriate method to count the lines in the file within it.
 ## UML Diagrams:
 ![](https://github.com/ibrahim3999/Ex2_oop/blob/master/src/UML/Pic/UML.jpg)
 
