@@ -1,21 +1,19 @@
 package src.Ex2_2;
 
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.concurrent.*;
 
-public class CustomExecutor {
+public class CustomExecutor{
     private final long keepAliveTime;
     private final int corePoolSize;
     private final int maxPoolSize ;
 
-    private final LinkedBlockingQueue<Runnable> queue;
+    private final PriorityBlockingQueue<Runnable> queue;
     private final TimeUnit unit;
    private final ThreadPoolExecutor threadpool;
 
     public CustomExecutor() {
+
 
         /**
         this.queue=new PriorityBlockingQueue(Collections.singleton(new Comparator<Task>() {
@@ -30,16 +28,19 @@ public class CustomExecutor {
             }
         }));
          **/
-        this.queue=new LinkedBlockingQueue<>();
+        this.queue= new PriorityBlockingQueue<Runnable>();
         this.corePoolSize = Runtime.getRuntime().availableProcessors()/2;
         this. maxPoolSize =Runtime.getRuntime().availableProcessors()-1;
         this.keepAliveTime=300;
         this.unit=TimeUnit.MICROSECONDS;
         this.threadpool=new ThreadPoolExecutor(corePoolSize,maxPoolSize,keepAliveTime,unit,queue);
 
+
     }
 
+
     public   <T> Future<T> submit(Callable<T> task, TaskType taskType ) {
+        System.out.println(this.getCurrentMax());
         return submit(Task.createTask(task,taskType));
 
     }
@@ -51,39 +52,41 @@ public class CustomExecutor {
      * @param task
      * add task
     * */
-    public void  enqueueTask(Task task)
+    public  <T>Future<T>  enqueueTask(Task task)
     {
-        this.submit(task);
+        return this.submit(task);
     }
     /**
      * @param task
+     * @return
      * @@param type
      * create a new Task -->then added
-     * */
-    public void enqueueTask(Callable task,TaskType type)
+     */
+    public <T>Future<T> enqueueTask(Callable task, TaskType type)
     {
-        enqueueTask(Task.createTask(task,type));
+
+        return  enqueueTask(Task.createTask(task,type));
     }
     /**
      * @param task
      * create a new Task -->then added
      * */
-    public void enqueueTask(Callable task)
+    public  <T>Future<T>  enqueueTask(Callable task)
     {
 
-        enqueueTask(Task.createTask(task,TaskType.IO));
+       return enqueueTask(Task.createTask(task,TaskType.IO));
     }
     public ThreadPoolExecutor getThreadPool() {
         return threadpool;
     }
 
-    public LinkedBlockingQueue getQueue() {
+    public PriorityBlockingQueue<Runnable> getQueue() {
         return queue;
     }
 
 
     public    String getCurrentMax() {
-
+    //   super.beforeExecute(Thread.currentThread(),super.getQueue().peek());
         if(threadpool.getQueue().peek()==null)
         {
             return "Empty Queue";

@@ -52,7 +52,7 @@ public class Task<V> implements Comparable<Task<V>>, Callable<V> {
     }
     @Override
     public int compareTo(Task<V> o) {
-      return Integer.compare(o.getType().getPriorityValue(), getType().getPriorityValue());
+      return Integer.compare(getType().getPriorityValue(), o.getType().getPriorityValue());
     }
     public TaskType getType() {
         return type;
