@@ -116,7 +116,7 @@ public class Ex2_1 {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            counter += l.countLines;
+            counter += l.getCountLines();
         }
 
         return counter;
