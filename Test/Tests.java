@@ -56,7 +56,7 @@ public class Tests {
         logger.info(() -> "Reversed String = " + reversed);
         logger.info(() -> String.valueOf("Total Price = " + totalPrice));
        logger.info(() -> "Current maximum priority = " +
-              customExecutor.getCurrentMax());
+             customExecutor.getCurrentMax());
         customExecutor.gracefullyTerminate();
     }
 }

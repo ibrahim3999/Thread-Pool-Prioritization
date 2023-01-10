@@ -16,7 +16,7 @@ public class Task<V> implements Comparable<Task<V>>, Callable<V> {
         this.type=TaskType.COMPUTATIONAL;
         this.future=new CompletableFuture<>();
     }
-    public Task(Callable<V> task, TaskType taskType)
+    private  Task(Callable<V> task, TaskType taskType)
     {
         this.type=taskType;
         this.task=task;
@@ -29,6 +29,10 @@ public class Task<V> implements Comparable<Task<V>>, Callable<V> {
     public static Task createTask(Callable task,TaskType taskType)
     {
         return new Task(task,taskType);
+    }
+    public static Task createTask(Callable task)
+    {
+        return new Task(task,TaskType.OTHER);
     }
     /**
      * A constructor with a priority task
@@ -45,6 +49,7 @@ public class Task<V> implements Comparable<Task<V>>, Callable<V> {
         try {
             V res= this.task.call();
             future.complete(res);
+           // System.out.println(getType().getPriorityValue());
             return res;
         } catch (Exception e) {
             throw new RuntimeException(e);

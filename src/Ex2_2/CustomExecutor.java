@@ -3,51 +3,44 @@ package src.Ex2_2;
 
 import java.util.concurrent.*;
 
-public class CustomExecutor{
-    private final long keepAliveTime;
-    private final int corePoolSize;
-    private final int maxPoolSize ;
+public class CustomExecutor extends ThreadPoolExecutor{
+    private final long keepAliveTime=300;
+    private final int corePoolSize=Runtime.getRuntime().availableProcessors()/2;
+    private final int maxPoolSize=Runtime.getRuntime().availableProcessors()-1;
 
-    private final PriorityBlockingQueue<Runnable> queue;
-    private final TimeUnit unit;
-   private final ThreadPoolExecutor threadpool;
+    private final PriorityBlockingQueue<Runnable> queue=new PriorityBlockingQueue<Runnable>();
+    private final TimeUnit unit=TimeUnit.MICROSECONDS;
+
+  // private final ThreadPoolExecutor threadpool;
 
     public CustomExecutor() {
-
-
+        super(Runtime.getRuntime().availableProcessors()/2
+                ,Runtime.getRuntime().availableProcessors()-1
+                ,300,
+                TimeUnit.MICROSECONDS
+                ,new PriorityBlockingQueue<>());
         /**
-        this.queue=new PriorityBlockingQueue(Collections.singleton(new Comparator<Task>() {
-            @Override
-            public int compare(Task o1, Task o2) {
-                return Integer.compare(o1.getType().getPriorityValue(), o2.getType().getPriorityValue());
-            }
+        keepAliveTime=300;
+         corePoolSize=Runtime.getRuntime().availableProcessors()/2;
+         maxPoolSize=Runtime.getRuntime().availableProcessors()-1;
 
-            @Override
-            public boolean equals(Object obj) {
-                return false;
-            }
-        }));
+        PriorityBlockingQueue<Runnable> queue=new PriorityBlockingQueue<Runnable>();
+         TimeUnit unit=TimeUnit.MICROSECONDS;
          **/
-        this.queue= new PriorityBlockingQueue<Runnable>();
-        this.corePoolSize = Runtime.getRuntime().availableProcessors()/2;
-        this. maxPoolSize =Runtime.getRuntime().availableProcessors()-1;
-        this.keepAliveTime=300;
-        this.unit=TimeUnit.MICROSECONDS;
-        this.threadpool=new ThreadPoolExecutor(corePoolSize,maxPoolSize,keepAliveTime,unit,queue);
-
-
     }
+
+
 
 
     public   <T> Future<T> submit(Callable<T> task, TaskType taskType ) {
-        System.out.println(this.getCurrentMax());
         return submit(Task.createTask(task,taskType));
 
     }
-
+/*
     public <T> Future<T> submit(Task task ) {
         return this.threadpool.submit(task);
     }
+    */
     /**
      * @param task
      * add task
@@ -76,25 +69,21 @@ public class CustomExecutor{
 
        return enqueueTask(Task.createTask(task,TaskType.IO));
     }
+    /**
     public ThreadPoolExecutor getThreadPool() {
         return threadpool;
     }
-
+*/
     public PriorityBlockingQueue<Runnable> getQueue() {
         return queue;
     }
 
 
     public    String getCurrentMax() {
-    //   super.beforeExecute(Thread.currentThread(),super.getQueue().peek());
-        if(threadpool.getQueue().peek()==null)
-        {
-            return "Empty Queue";
-        }
-       return""+ threadpool.getQueue().peek();
+        return "";
     }
     public void gracefullyTerminate() {
-        threadpool.shutdownNow();
+        super.shutdownNow();
     }
 }
 
