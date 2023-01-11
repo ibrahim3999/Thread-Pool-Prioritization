@@ -11,7 +11,7 @@ import java.util.concurrent.FutureTask;
  @constructor
  @paramcallable the callable task being wrapped
  */
-public class FutureTaskAdapter<V> extends FutureTask<V> {
+public class FutureTaskAdapter<V> extends FutureTask<V>implements Comparable<FutureTaskAdapter>{
     private Task task;
 
     public FutureTaskAdapter(Callable<V> callable) {
@@ -41,5 +41,12 @@ public class FutureTaskAdapter<V> extends FutureTask<V> {
         return "FutureTaskAdapter{" +
                 "task=" + task +
                 '}';
+    }
+
+
+
+    @Override
+    public int compareTo(FutureTaskAdapter o) {
+        return Integer.compare(this.task.getType().getPriorityValue(), o.task.getType().getPriorityValue());
     }
 }

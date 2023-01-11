@@ -21,7 +21,7 @@ public class RunnableToCallableConverter<T> extends ThreadPoolExecutor {
 
     public RunnableToCallableConverter(int corePoolSize, int maximumPoolSize, long keepAliveTime, TimeUnit unit, BlockingQueue<Runnable> workQueue) {
         super(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue);
-        this.type.setPriority(0);
+
     }
 /**
     beforeExecute is a method in ThreadPoolExecutor that is called before the execution of a task.
@@ -51,6 +51,10 @@ public class RunnableToCallableConverter<T> extends ThreadPoolExecutor {
         @return int
     */
     public static int getType() {
+        if(type==null)
+        {
+            return 0;
+        }
         return type.getType().getPriorityValue();
     }
     @Override
