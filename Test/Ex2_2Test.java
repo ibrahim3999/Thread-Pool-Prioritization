@@ -1,5 +1,6 @@
 package Test;
 
+
 import org.junit.Test;
 import org.junit.platform.commons.logging.Logger;
 import org.junit.platform.commons.logging.LoggerFactory;
@@ -7,11 +8,10 @@ import src.Ex2_2.CustomExecutor;
 import src.Ex2_2.Task;
 import src.Ex2_2.TaskType;
 
-import java.util.concurrent.*;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 
-import static java.lang.Thread.sleep;
-
-public class Tests {
+public class Ex2_2Test {
     public static final Logger logger = LoggerFactory.getLogger(Tests.class);
     /**
      * check if the queue add by priority,
@@ -26,7 +26,8 @@ public class Tests {
         CustomExecutor customExecutor = new CustomExecutor();
         customExecutor.setCorePoolSize(1);
         customExecutor.setMaxPoolSize(1);
-        for (int i = 0; i < 5; i++) {
+
+        for (int i = 0; i < 8; i++) {
             Callable<String> testIO = () -> {
                 StringBuilder sb = new StringBuilder("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
                 return sb.reverse().toString();
@@ -36,25 +37,33 @@ public class Tests {
             var task = Task.createTask(()->{
                 int sum = 0;
                 for (int j = 1; j <= 10; j++) {
+
                     sum += j;
                 }
                 return sum;
             }, TaskType.COMPUTATIONAL);
             var sumTask = customExecutor.submit(task);
+            logger.info(()-> "Current maximum priority = " +
+                    customExecutor.getCurrentMax());
+
             var testMath = customExecutor.submit(() -> {
+
                 return 1000 * Math.pow(1.02, 5);
-            }, TaskType.COMPUTATIONAL);
+            }, TaskType.OTHER);
 
             Callable<String> testIO2 = () -> {
                 StringBuilder sb = new StringBuilder("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
                 return sb.reverse().toString();
             };
+
             var testt = customExecutor.submit(testIO2, TaskType.IO);
-            System.out.println(customExecutor.getQueue().toString());
-            customExecutor.getCurrentMax();
+            logger.info(()-> "Current maximum priority = " +
+                    customExecutor.getCurrentMax());
+
             final String get1;
             final double get2;
             final int get3;
+
             try {
                 get1 = testt.get();
                 get2 = testMath.get();
@@ -70,3 +79,4 @@ public class Tests {
         customExecutor.gracefullyTerminate();
     }
 }
+
