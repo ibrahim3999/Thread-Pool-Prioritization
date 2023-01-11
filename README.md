@@ -62,6 +62,5 @@ To submit a task, use the `submit()` method. Tasks can be submitted as a `Task` 
 ``` Task<Integer> task = new Task<>(() -> 1```
 ``` TaskType.COMPUTATIONAL); ```
 ``` Future<Integer> future = executor.submit(task); ```
-## UML PART2:
+### UML PART2:
 <img src="https://github.com/ibrahim3999/Ex2_oop/blob/master/src/Ex2_2/UML/Part2.jpg" width="500" height="400">
-src/Ex2_2/UML/Part2.jpg
