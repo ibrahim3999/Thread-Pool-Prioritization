@@ -3,7 +3,6 @@ package src.Ex2_2;
 import java.util.concurrent.*;
 
 public class RunnableToCallableConverter<T> extends ThreadPoolExecutor {
-
     private TaskType type;
 
     public RunnableToCallableConverter(int corePoolSize, int maximumPoolSize, long keepAliveTime, TimeUnit unit, BlockingQueue<Runnable> workQueue) {
@@ -46,7 +45,7 @@ public class RunnableToCallableConverter<T> extends ThreadPoolExecutor {
             }
         }, TaskType.IO);
        // RunableTaskType runableTaskType=new RunableTaskType<>(myTask);
-       Future f1= threadPool.submit(myTask);
+        Future f1= threadPool.submit(myTask);
         Future f2=threadPool.submit(myTask2);
         Future f3= threadPool.submit(myTask3);
        // System.out.println(adapterFuctreTask.getTask().getType().getPriorityValue());

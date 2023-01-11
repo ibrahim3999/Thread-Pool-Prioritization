@@ -3,30 +3,30 @@ package src.Ex2_2;
 
 import java.util.concurrent.*;
 
-public class CustomExecutor extends ThreadPoolExecutor{
-    private final long keepAliveTime=300;
-    private final int corePoolSize=Runtime.getRuntime().availableProcessors()/2;
-    private final int maxPoolSize=Runtime.getRuntime().availableProcessors()-1;
+public class CustomExecutor {
+    private final long keepAliveTime;
+    private final int corePoolSize;
+    private final int maxPoolSize;
 
-    private final PriorityBlockingQueue<Runnable> queue=new PriorityBlockingQueue<Runnable>();
-    private final TimeUnit unit=TimeUnit.MICROSECONDS;
+    private final PriorityBlockingQueue<Runnable> queue;
+    private final TimeUnit unit;
 
-  // private final ThreadPoolExecutor threadpool;
+   private final ThreadPoolExecutor threadpool;
+   private  final RunnableToCallableConverter bridge ;
+   private int CurrectMax;
 
     public CustomExecutor() {
-        super(Runtime.getRuntime().availableProcessors()/2
-                ,Runtime.getRuntime().availableProcessors()-1
-                ,300,
-                TimeUnit.MICROSECONDS
-                ,new PriorityBlockingQueue<>());
-        /**
-        keepAliveTime=300;
-         corePoolSize=Runtime.getRuntime().availableProcessors()/2;
-         maxPoolSize=Runtime.getRuntime().availableProcessors()-1;
+        this.keepAliveTime = 300;
+        this.corePoolSize = Runtime.getRuntime().availableProcessors() / 2;
+        this.maxPoolSize = Runtime.getRuntime().availableProcessors() - 1;
+        this. queue = new PriorityBlockingQueue<Runnable>();
+        this.unit = TimeUnit.MICROSECONDS;
+        this.threadpool=new ThreadPoolExecutor(corePoolSize,maxPoolSize,keepAliveTime,unit,queue);
+        this.bridge=new RunnableToCallableConverter<>(threadpool.getCorePoolSize(),
+                threadpool.getMaximumPoolSize(),threadpool.getMaximumPoolSize(),
+                unit,threadpool.getQueue());
+        this.CurrectMax=1;
 
-        PriorityBlockingQueue<Runnable> queue=new PriorityBlockingQueue<Runnable>();
-         TimeUnit unit=TimeUnit.MICROSECONDS;
-         **/
     }
 
 
@@ -36,11 +36,11 @@ public class CustomExecutor extends ThreadPoolExecutor{
         return submit(Task.createTask(task,taskType));
 
     }
-/*
+
     public <T> Future<T> submit(Task task ) {
         return this.threadpool.submit(task);
     }
-    */
+
     /**
      * @param task
      * add task
@@ -79,11 +79,11 @@ public class CustomExecutor extends ThreadPoolExecutor{
     }
 
 
-    public    String getCurrentMax() {
-        return "";
+    public    int getCurrentMax() {
+        return 1;
     }
     public void gracefullyTerminate() {
-        super.shutdownNow();
+        threadpool.shutdownNow();
     }
 }
 
