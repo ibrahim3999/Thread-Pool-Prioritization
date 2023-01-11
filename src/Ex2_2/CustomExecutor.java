@@ -1,94 +1,104 @@
 package src.Ex2_2;
-
-
 import java.util.concurrent.*;
-
+/**
+ * CustomExecutor is a class that implements a custom thread pool by extending ThreadPoolExecutor
+ * and using a PriorityBlockingQueue to hold tasks before they are executed.
+ * @author ibrahim,Tair
+ * @constructor
+ * Creates a thread pool with default parameters, including a keepAliveTime of 300ms,
+ * a corePoolSize and maxPoolSize based on the number of available processors,
+ * and a PriorityBlockingQueue for holding tasks.
+ */
 public class CustomExecutor {
 
-
     private final long keepAliveTime;
-    private  int corePoolSize;
-    private  int maxPoolSize;
-
-
+    private int corePoolSize;
+    private int maxPoolSize;
     private final PriorityBlockingQueue<Runnable> queue;
     private final TimeUnit unit;
 
-   private final ThreadPoolExecutor threadpool;
-   //private  final RunnableToCallableConverter bridge ;
-   private int CurrectMax;
+    private final ThreadPoolExecutor threadpool;
+    //private  final RunnableToCallableConverter bridge ;
+    private int CurrectMax=1;
 
     public CustomExecutor() {
 
         this.keepAliveTime = 300;
         this.corePoolSize = Runtime.getRuntime().availableProcessors() / 2;
         this.maxPoolSize = Runtime.getRuntime().availableProcessors() - 1;
-        this. queue = new PriorityBlockingQueue<Runnable>();
+        this.queue = new PriorityBlockingQueue<Runnable>();
         this.unit = TimeUnit.MILLISECONDS;
-        this.threadpool=new RunnableToCallableConverter<>(corePoolSize,
-                                                            maxPoolSize,
-                                                            keepAliveTime,
-                                                            unit,
-                                                            queue
-                                                            );
+        this.threadpool = new RunnableToCallableConverter<>(corePoolSize,
+                maxPoolSize,
+                keepAliveTime,
+                unit,
+                queue
+        );
 
     }
-
-    public <T> Future<T> submit(Task task ) {
+    /**
+     * submit is a method that submits a task for execution to the thread pool.
+     * @param task the task to be executed
+     * @return Future representing the result of the task
+     */
+    public <T> Future<T> submit(Task task) {
         return this.threadpool.submit(task);
     }
-    public   <T> Future<T> submit(Callable<T> task, TaskType taskType ) {
-        return submit(Task.createTask(task,taskType));
+    public <T> Future<T> submit(Callable<T> task, TaskType taskType) {
+        Task res=Task.createTask(task, taskType);
+        return submit(res);
 
     }
-    public   <T> Future<T> submit(Callable task ) {
+    public <T> Future<T> submit(Callable task) {
         return submit(Task.createTask(task));
 
     }
-
     /**
-     * @param task
-     * add task
-    * */
-    public  <T>Future<T>  enqueueTask(Task task)
-    {
+     * enqueueTask is a method that adds a task to the PriorityBlockingQueue.
+     * @param task the task to be added
+     * @return Future representing the result of the task
+     */
+    public <T> Future<T> enqueueTask(Task task) {
         return this.submit(task);
     }
+
+    public <T> Future<T> enqueueTask(Callable task, TaskType type) {
+
+        return enqueueTask(Task.createTask(task, type));
+    }
     /**
-     * @param task
-     * @return
-     * @@param type
-     * create a new Task -->then added
+     * @param task create a new Task -->then added
      */
-    public <T>Future<T> enqueueTask(Callable task, TaskType type)
-    {
+    public <T> Future<T> enqueueTask(Callable task) {
 
-        return  enqueueTask(Task.createTask(task,type));
+        return enqueueTask(Task.createTask(task, TaskType.IO));
     }
     /**
-     * @param task
-     * create a new Task -->then added
-     * */
-    public  <T>Future<T>  enqueueTask(Callable task)
-    {
-
-       return enqueueTask(Task.createTask(task,TaskType.IO));
-    }
-    /**
-    public ThreadPoolExecutor getThreadPool() {
-        return threadpool;
-    }
-*/
+     * public ThreadPoolExecutor getThreadPool() {
+     * return threadpool;
+     * }
+     */
     public PriorityBlockingQueue<Runnable> getQueue() {
         return queue;
     }
-
-
-    public    int getCurrentMax() {
-        return RunnableToCallableConverter.getType();
+    /**
+     * getCurrentMax returns the priority of the currently executing task
+     * @return int representing the priority of the currently executing task
+     */
+    public int getCurrentMax() {
+        this.CurrectMax=RunnableToCallableConverter.getType();
+        return CurrectMax;
     }
+    /**
+     * gracefullyTerminate is a method that gracefully shuts down the thread pool.
+     * it will wait for all tasks to complete before shutting down
+     */
     public void gracefullyTerminate() {
-        threadpool.shutdownNow();
+        while (threadpool.getActiveCount()!=0)
+        {
+            // break no when finish All tasks
+        }
+        threadpool.shutdown();
     }
 
     //getter and setter
@@ -112,6 +122,7 @@ public class CustomExecutor {
     public ThreadPoolExecutor getThreadpool() {
         return threadpool;
     }
+
     public void setCorePoolSize(int corePoolSize) {
         this.corePoolSize = corePoolSize;
     }
@@ -120,6 +131,60 @@ public class CustomExecutor {
         this.maxPoolSize = maxPoolSize;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CustomExecutor that = (CustomExecutor) o;
+        return keepAliveTime == that.keepAliveTime &&
+                corePoolSize == that.corePoolSize &&
+                maxPoolSize == that.maxPoolSize &&
+                queue.equals(that.queue) &&
+                unit == that.unit &&
+                threadpool.equals(that.threadpool);
+    }
+    public static void main(String[] args) throws InterruptedException, ExecutionException {
+        CustomExecutor C=new CustomExecutor();
+        C.setCorePoolSize(1);
+        C.setMaxPoolSize(1);
+        Task<Integer> t2=Task.createTask(new Callable() {
+            @Override
+            public Integer call() throws Exception {
+                return 1;
+            }
+        },TaskType.OTHER);
+        Task <Integer>t1=Task.createTask(new Callable() {
+            @Override
+            public Integer call() throws Exception {
+                return 1;
+            }
+        },TaskType.IO);
+        Task <Integer>t3=Task.createTask(new Callable() {
+            @Override
+            public Integer call() throws Exception {
+                return 1;
+            }
+        },TaskType.COMPUTATIONAL);
+        Task <Integer>t4=Task.createTask(new Callable() {
+            @Override
+            public Integer call() throws Exception {
+                return 1;
+            }
+        },TaskType.COMPUTATIONAL);
+
+         Future f1=C.submit(t1);
+        Future f2=C.submit(t2);
+        Future f3=C.submit(t3);
+        Future f4=C.submit(t4);
+        Thread.sleep(5000);
+        System.out.println(f3.isDone());
+        System.out.println(f4.isDone());
+        System.out.println(f1.isDone());
+        System.out.println(f2.isDone());
+        System.out.println(C.getCurrentMax());
+         C.gracefullyTerminate();
+
+    }
 
 }
 
