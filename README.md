@@ -59,5 +59,6 @@ To use the thread pool, create an instance of the `CustomExecutor` class.
 
 To submit a task, use the `submit()` method. Tasks can be submitted as a `Task` object, a `Callable` object with a task type, or just a `Callable` object.
 
-``` Task<Integer> task = new Task<>(() -> 1, TaskType.COMPUTATIONAL); ```
+``` Task<Integer> task = new Task<>(() -> 1```
+``` TaskType.COMPUTATIONAL); ```
 ``` Future<Integer> future = executor.submit(task); ```
