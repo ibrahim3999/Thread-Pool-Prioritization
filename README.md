@@ -34,7 +34,7 @@ On the other hand, when you use a thread pool, a fixed number of threads are cre
 
 As a result, the thread pool design pattern can be more efficient than using individual threads because it reduces the overhead of thread creation and task scheduling. It's also worth noting that the performance of a thread pool will depend on a variety of factors, including the number of threads in the pool, the type of tasks being executed, and the available hardware resources.
   ```
-## UML Diagrams:
+## UML PART1:
 <img src="https://github.com/ibrahim3999/Ex2_oop/blob/master/src/Ex2_1/UML/Pic/UML.jpg" width="500" height="400">
 
 # PART 2:
@@ -62,3 +62,6 @@ To submit a task, use the `submit()` method. Tasks can be submitted as a `Task` 
 ``` Task<Integer> task = new Task<>(() -> 1```
 ``` TaskType.COMPUTATIONAL); ```
 ``` Future<Integer> future = executor.submit(task); ```
+## UML PART2:
+<img src="https://github.com/ibrahim3999/Ex2_oop/blob/master/src/Ex2_2/UML/Part2.jpg" width="500" height="400">
+src/Ex2_2/UML/Part2.jpg
