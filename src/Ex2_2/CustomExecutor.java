@@ -34,7 +34,6 @@ public class CustomExecutor {
                 unit,
                 queue
         );
-
     }
     /**
      * submit is a method that submits a task for execution to the thread pool.
@@ -143,50 +142,10 @@ public class CustomExecutor {
                 unit == that.unit &&
                 threadpool.equals(that.threadpool);
     }
-    public static void main(String[] args) throws InterruptedException, ExecutionException {
-        CustomExecutor C=new CustomExecutor();
-        C.setCorePoolSize(1);
-        C.setMaxPoolSize(1);
-        Task<Integer> t2=Task.createTask(new Callable() {
-            @Override
-            public Integer call() throws Exception {
-                return 1;
-            }
-        },TaskType.OTHER);
-        Task <Integer>t1=Task.createTask(new Callable() {
-            @Override
-            public Integer call() throws Exception {
-                return 1;
-            }
-        },TaskType.IO);
-        Task <Integer>t3=Task.createTask(new Callable() {
-            @Override
-            public Integer call() throws Exception {
-                return 1;
-            }
-        },TaskType.COMPUTATIONAL);
-        Task <Integer>t4=Task.createTask(new Callable() {
-            @Override
-            public Integer call() throws Exception {
-                return 1;
-            }
-        },TaskType.COMPUTATIONAL);
-
-         Future f1=C.submit(t1);
-        Future f2=C.submit(t2);
-        Future f3=C.submit(t3);
-        Future f4=C.submit(t4);
-        Thread.sleep(5000);
-        System.out.println(f3.isDone());
-        System.out.println(f4.isDone());
-        System.out.println(f1.isDone());
-        System.out.println(f2.isDone());
-        System.out.println(C.getCurrentMax());
-         C.gracefullyTerminate();
 
     }
 
-}
+
 
 
 
