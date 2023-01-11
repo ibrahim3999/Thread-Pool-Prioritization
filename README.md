@@ -1,5 +1,5 @@
 # Thread Pool Prioritization:
-
+ Thread Pool Prioritization is a tasks manager  in realtime for unusual tasks.
 ## PART 1:
 It appears that the `Ex2_1` class provides methods for counting the number of lines in a file or array of files. The `countLines` method takes a single file name as input and returns the number of lines in that file. The `getNumOflines` method takes an array of file names and returns the total number of lines in all of the files. The createTextFiles method creates a specified number of text files with a specified number of lines in each file, determined by a random number generator with a given seed and bound. The `getNumOfLinesThreadPool` and `getNumOfLinesThreads` methods both take an array of file names and return the total number of lines in all of the files, but they do so using either a thread pool or individual threads, respectively.
 ## LinesCounterTask:
