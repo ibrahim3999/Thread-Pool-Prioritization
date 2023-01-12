@@ -93,10 +93,6 @@ public class CustomExecutor {
      * it will wait for all tasks to complete before shutting down
      */
     public void gracefullyTerminate() {
-        while (threadpool.getActiveCount()!=0)
-        {
-            // break no when finish All tasks
-        }
         threadpool.shutdown();
     }
 
